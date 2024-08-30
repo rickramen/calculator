@@ -1,7 +1,12 @@
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('.buttons button');
+
 let num1 = null;
 let num2 = null;
 let operator = null;
+let displayValue = ''; 
 
+// Math Functions
 function add(num1, num2){
     return num1 + num2;
 }
@@ -32,6 +37,52 @@ function operate(operator, num1, num2){
             return multiply(num1, num2);
         case '/':
             return divide(num1, num2);
+    }
+}
+
+// Button click events
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const buttonText = button.textContent;
+        switch (buttonText) {
+            case 'C':
+                clearDisplay();
+                break;
+            case '⌫':
+                backspace()
+                break;
+            case '=':
+                break;
+            case '±':
+                negate();
+                break;
+            default:
+                updateDisplay(buttonText);
+                break;
+        }
+    });
+});
+
+// Display updates
+function updateDisplay(value) {
+    displayValue += value;
+    display.value = displayValue; // Update display with new value
+}
+
+function clearDisplay() {
+    displayValue = '';
+    display.value = '';
+}
+
+function backspace() {
+    displayValue = displayValue.slice(0, -1); 
+    display.value = displayValue;
+}
+
+function negate() {
+    if (displayValue) {
+        displayValue = displayValue.startsWith('-') ? displayValue.slice(1) : '-' + displayValue;
+        display.value = displayValue;
     }
 }
 
